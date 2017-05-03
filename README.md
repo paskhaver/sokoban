@@ -10,7 +10,7 @@ The game consists of a grid of squares populated with:
 - a single player, who starts in a position that allows for free movement
 - multiple boxes that the player can push across the grid
 - designated checkpoints, whose count is equal to the number of boxes
-- walls / obstacles that neither the player nor the boxes cannot traverse
+- walls / obstacles that neither the player nor the boxes can traverse
 
 The goal is for the player to move all of the boxes to their
 designated checkpoints without trapping the boxes in between
