@@ -1,12 +1,54 @@
-header {
+body, header, h1, canvas, footer {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
 
+header {
+  margin: 20px auto;
+  width: 80%;
+  height: 100px;
+  border-radius: 6px;
+  background-color: pink;
+  text-align: center;
+}
+
+header > h1 {
+
+}
+
+.middle-container {
+  width: 80%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.instructions {
+  width: 350px;
+  height: 640px;
+  background-color: orange;
+  border-radius: 6px;
 }
 
 canvas {
   display: block;
-  margin: 60px auto;
+}
+
+.bonus {
+  width: 350px;
+  height: 640px;
+  background-color: yellow;
+  border-radius: 6px;
 }
 
 footer {
-  
+  margin: 20px auto;
+  width: 80%;
+  height: 100px;
+  border-radius: 6px;
+  background-color: pink;
+  text-align: center;
 }
