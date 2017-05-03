@@ -9,19 +9,30 @@ function init() {
 }
 
 function handleImageLoad(event)  {
-  // debugger
+
+  const sokobanBoxes = {};
+
   const stage = new createjs.Stage("canvas");
   const groundImage = event.target;
 
   for (let x = 0; x < 10; x++) {
     for (let y = 0; y < 10; y++) {
-      let bitmap = new createjs.Bitmap(groundImage);
-          bitmap.scaleX = 0.5;
-          bitmap.scaleY = 0.5;
-      bitmap.x = x * 64;
-      bitmap.y = y * 64;
+      const bitmap = new createjs.Bitmap(groundImage);
+      bitmap.scaleX = 0.5;
+      bitmap.scaleY = 0.5;
+
+      const xCoordinate = x * 64;
+      const yCoordinate = y * 64;
+      bitmap.x = xCoordinate;
+      bitmap.y = yCoordinate;
+
+      sokobanBoxes[[x, y]] = bitmap;
+
       stage.addChild(bitmap);
       stage.update();
     }
   }
+
+  window.sokobanBoxes = sokobanBoxes;
+
 }
