@@ -35,7 +35,7 @@ JavaScript Classes
 
 ## Wireframes
 
-![Sokoban Wireframe]("/screenshots/Sokoban.png")
+![Sokoban Wireframe](/screenshots/Sokoban.png)
 
 ## Implementation Timeline
 
