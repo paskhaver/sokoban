@@ -94,6 +94,7 @@ class Board {
     this.objectGrid = this.compile();
     this.lastRow    = this.objectGrid.length - 1;
     this.lastCol    = this.objectGrid[0].length - 1;
+    this.stepCount  = 0;
 
     this.render();
 
@@ -390,49 +391,6 @@ class Board {
 
 }
 
-let canvas;
-let lastDownTarget;
-
-window.onload = () => {
-  canvas = document.getElementById("canvas");
-
-  document.addEventListener("mousedown", (event) => {
-    lastDownTarget = event.target;
-  });
-
-  document.addEventListener("keydown", function(event) {
-    event.preventDefault();
-    if(lastDownTarget === canvas) {
-      switch(event.keyCode) {
-        // left
-        case 37:
-          board.movePlayer("left");
-          break;
-
-        //up
-        case 38:
-          board.movePlayer("up");
-          break;
-
-        //right
-        case 39:
-          board.movePlayer("right");
-          break;
-
-        //down
-        case 40:
-          board.movePlayer("down");
-        break;
-      }
-    }
-
-    if (board.gameOver()) {
-      alert("You win!");
-    }
-
-  });
-};
-
 
 
 /* harmony default export */ __webpack_exports__["a"] = Board;
@@ -474,6 +432,7 @@ class Sokoban {
 
 const sokoban = new Sokoban();
 const board = sokoban.board;
+window.board = board;
 
 
 /* harmony default export */ __webpack_exports__["default"] = Sokoban;
@@ -513,6 +472,8 @@ window.onload = () => {
         break;
       }
     }
+
+    board.stepCount += 1;
 
   });
 };
