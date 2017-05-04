@@ -1,6 +1,4 @@
-import Tile from "./tile.js";
-
-class Player extends Tile {
+class Player {
   constructor(x, y) {
     super(x, y);
   }
