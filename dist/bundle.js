@@ -191,6 +191,7 @@ class Board {
     if (direction === "left") {
       if (playerColumn === 0) { return; }
       const objLeftOfPlayer = this.objectGrid[playerRow][playerColumn - 1];
+      if (objLeftOfPlayer instanceof Wall) { return; }
             playerObject.column -= 1;
             objLeftOfPlayer.column += 1;
 
@@ -200,6 +201,8 @@ class Board {
     } else if (direction === "right") {
       if (playerColumn === this.lastCol) { return; }
       const objRightOfPlayer = this.objectGrid[playerRow][playerColumn + 1];
+      if (objRightOfPlayer instanceof Wall) { return; }
+
             playerObject.column += 1;
             objRightOfPlayer.column -= 1;
 
@@ -209,6 +212,7 @@ class Board {
     }  else if (direction === "up") {
       if (playerRow === 0) { return; }
       const objNorthOfPlayer = this.objectGrid[playerRow - 1][playerColumn];
+        if (objNorthOfPlayer instanceof Wall) { return; }
             playerObject.row -= 1;
             objNorthOfPlayer.row += 1;
 
@@ -218,6 +222,7 @@ class Board {
       else if (direction === "down") {
       if (playerRow === this.lastRow) { return; }
       const objSouthOfPlayer = this.objectGrid[playerRow + 1][playerColumn];
+      if (objSouthOfPlayer instanceof Wall) { return; }
             playerObject.row += 1;
             objSouthOfPlayer.row -= 1;
 
