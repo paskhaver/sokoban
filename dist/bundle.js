@@ -71,6 +71,12 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tiles_tile_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tiles_player_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__ = __webpack_require__(8);
 // Level element      Character  ASCII Code
 // Wall                  #         0x23
 // Player                @         0x40
@@ -80,76 +86,12 @@
 // Goal square           .         0x2e
 // Floor              (Space)      0x20
 
-class Tile {
-  constructor(row, column) {
-    this.row = row;
-    this.column = column;
-    this.imageSrc = "";
-  }
-
-  render(stage) {
-    const image = new Image();
-          image.src = this.imageSrc;
-          image.onload = (event) => {
-            const bitmap = new createjs.Bitmap(event.target);
-            bitmap.scaleX = 0.5;
-            bitmap.scaleY = 0.5;
-            bitmap.x = this.column * 64;
-            bitmap.y = this.row * 64;
-
-            stage.addChild(bitmap);
-            stage.update();
-          };
-  }
-}
-
-class Floor extends Tile {
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Ground/ground_04.png";
-  }
-}
-
-class Wall extends Tile {
-
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Environment/environment_04.png";
-  }
-
-}
-
-class Player extends Tile {
-
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Player/player_04.png";
-  }
 
 
-  move(direction) {
 
-  }
 
-}
 
-class Box extends Tile {
 
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Crates/crate_05.png";
-  }
-
-}
-
-class Checkpoint extends Tile {
-
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Crates/crate_30.png";
-  }
-
-}
 
 class Board {
 
@@ -191,7 +133,7 @@ class Board {
     if (direction === "left") {
       if (playerColumn === 0) { return; }
       const objLeftOfPlayer = this.objectGrid[playerRow][playerColumn - 1];
-      if (objLeftOfPlayer instanceof Wall) { return; }
+      if (objLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) { return; }
             playerObject.column -= 1;
             objLeftOfPlayer.column += 1;
 
@@ -201,7 +143,7 @@ class Board {
     } else if (direction === "right") {
       if (playerColumn === this.lastCol) { return; }
       const objRightOfPlayer = this.objectGrid[playerRow][playerColumn + 1];
-      if (objRightOfPlayer instanceof Wall) { return; }
+      if (objRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) { return; }
 
             playerObject.column += 1;
             objRightOfPlayer.column -= 1;
@@ -212,7 +154,7 @@ class Board {
     }  else if (direction === "up") {
       if (playerRow === 0) { return; }
       const objNorthOfPlayer = this.objectGrid[playerRow - 1][playerColumn];
-        if (objNorthOfPlayer instanceof Wall) { return; }
+        if (objNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) { return; }
             playerObject.row -= 1;
             objNorthOfPlayer.row += 1;
 
@@ -222,7 +164,7 @@ class Board {
       else if (direction === "down") {
       if (playerRow === this.lastRow) { return; }
       const objSouthOfPlayer = this.objectGrid[playerRow + 1][playerColumn];
-      if (objSouthOfPlayer instanceof Wall) { return; }
+      if (objSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) { return; }
             playerObject.row += 1;
             objSouthOfPlayer.row -= 1;
 
@@ -238,19 +180,19 @@ class Board {
       return array.map((symbol, colIndex) => {
         switch(symbol) {
           case "#":
-            return new Wall(rowIndex, colIndex);
+            return new __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */](rowIndex, colIndex);
 
           case " ":
-            return new Floor(rowIndex, colIndex);
+            return new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
 
           case ".":
-            return new Checkpoint(rowIndex, colIndex);
+            return new __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */](rowIndex, colIndex);
 
           case "$":
-            return new Box(rowIndex, colIndex);
+            return new __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__["a" /* default */](rowIndex, colIndex);
 
           case "@":
-            return new Player(rowIndex, colIndex);
+            return new __WEBPACK_IMPORTED_MODULE_3__tiles_player_js__["a" /* default */](rowIndex, colIndex);
         }
       });
     });
@@ -272,6 +214,7 @@ window.board = board;
 
 let canvas;
 let lastDownTarget;
+
 window.onload = () => {
   canvas = document.getElementById("canvas");
 
@@ -304,8 +247,8 @@ window.onload = () => {
         break;
       }
     }
-  })
-}
+  });
+};
 
 
 
@@ -346,6 +289,135 @@ class Sokoban {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = Sokoban;
+
+
+/***/ }),
+/* 2 */,
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Tile {
+  constructor(row, column) {
+    this.row = row;
+    this.column = column;
+    this.imageSrc = "";
+  }
+
+  render(stage) {
+    const image = new Image();
+          image.src = this.imageSrc;
+          image.onload = (event) => {
+            const bitmap = new createjs.Bitmap(event.target);
+            bitmap.scaleX = 0.5;
+            bitmap.scaleY = 0.5;
+            bitmap.x = this.column * 64;
+            bitmap.y = this.row * 64;
+
+            stage.addChild(bitmap);
+            stage.update();
+          };
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Tile;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(3);
+
+
+class Floor extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Ground/ground_04.png";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Floor;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(3);
+
+
+class Wall extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Environment/environment_04.png";
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Wall;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(3);
+
+
+class Player extends __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Player/player_04.png";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Player;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(3);
+
+
+class Box extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Crates/crate_05.png";
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Box;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(3);
+
+
+class Checkpoint extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Crates/crate_30.png";
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Checkpoint;
 
 
 /***/ })
