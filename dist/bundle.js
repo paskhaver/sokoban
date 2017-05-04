@@ -80,15 +80,16 @@
 // Goal square           .         0x2e
 // Floor              (Space)      0x20
 
-class Floor {
+class Tile {
   constructor(row, column) {
     this.row = row;
     this.column = column;
+    this.imageSrc = "";
   }
 
   render(stage) {
-    const image = new Image()
-          image.src = "./PNG/Ground/ground_04.png";
+    const image = new Image();
+          image.src = this.imageSrc;
           image.onload = (event) => {
             const bitmap = new createjs.Bitmap(event.target);
             bitmap.scaleX = 0.5;
@@ -102,97 +103,45 @@ class Floor {
   }
 }
 
-class Wall {
-
+class Floor extends Tile {
   constructor(row, column) {
-    this.row = row;
-    this.column = column;
-  }
-
-  render(stage) {
-    const image = new Image()
-          image.src = "./PNG/Environment/environment_04.png";
-          image.onload = (event) => {
-            const bitmap = new createjs.Bitmap(event.target);
-            bitmap.scaleX = 0.5;
-            bitmap.scaleY = 0.5;
-            bitmap.x = this.row * 64;
-            bitmap.y = this.column * 64;
-
-            stage.addChild(bitmap);
-            stage.update();
-          };
+    super(row, column);
+    this.imageSrc = "./PNG/Ground/ground_04.png";
   }
 }
 
-class Player {
+class Wall extends Tile {
 
   constructor(row, column) {
-    this.row = row;
-    this.column = column;
-  }
-
-  render(stage) {
-    const image = new Image()
-          image.src = "./PNG/Player/player_04.png";
-          image.onload = (event) => {
-            const bitmap = new createjs.Bitmap(event.target);
-            bitmap.scaleX = 0.5;
-            bitmap.scaleY = 0.5;
-            bitmap.x = this.row * 64;
-            bitmap.y = this.column * 64;
-
-            stage.addChild(bitmap);
-            stage.update();
-          };
+    super(row, column);
+    this.imageSrc = "./PNG/Environment/environment_04.png";
   }
 
 }
 
-class Box {
+class Player extends Tile {
 
   constructor(row, column) {
-    this.row = row;
-    this.column = column;
-  }
-
-  render(stage) {
-    const image = new Image()
-          image.src = "./PNG/Crates/crate_05.png";
-          image.onload = (event) => {
-            const bitmap = new createjs.Bitmap(event.target);
-            bitmap.scaleX = 0.5;
-            bitmap.scaleY = 0.5;
-            bitmap.x = this.row * 64;
-            bitmap.y = this.column * 64;
-
-            stage.addChild(bitmap);
-            stage.update();
-          };
+    super(row, column);
+    this.imageSrc = "./PNG/Player/player_04.png";
   }
 
 }
 
-class Checkpoint {
+class Box extends Tile {
 
   constructor(row, column) {
-    this.row = row;
-    this.column = column;
+    super(row, column);
+    this.imageSrc = "./PNG/Crates/crate_05.png";
   }
 
-  render(stage) {
-    const image = new Image()
-          image.src = "./PNG/Crates/crate_30.png";
-          image.onload = (event) => {
-            const bitmap = new createjs.Bitmap(event.target);
-            bitmap.scaleX = 0.5;
-            bitmap.scaleY = 0.5;
-            bitmap.x = this.row * 64;
-            bitmap.y = this.column * 64;
+}
 
-            stage.addChild(bitmap);
-            stage.update();
-          };
+class Checkpoint extends Tile {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Crates/crate_30.png";
   }
 
 }
