@@ -94,8 +94,8 @@ class Tile {
             const bitmap = new createjs.Bitmap(event.target);
             bitmap.scaleX = 0.5;
             bitmap.scaleY = 0.5;
-            bitmap.x = this.row * 64;
-            bitmap.y = this.column * 64;
+            bitmap.x = this.column * 64;
+            bitmap.y = this.row * 64;
 
             stage.addChild(bitmap);
             stage.update();
@@ -124,6 +124,11 @@ class Player extends Tile {
   constructor(row, column) {
     super(row, column);
     this.imageSrc = "./PNG/Player/player_04.png";
+  }
+
+
+  move(direction) {
+
   }
 
 }
@@ -168,7 +173,22 @@ class Board {
     ];
 
     this.objectGrid = this.compile();
-    this.visualGrid = this.render();
+    this.render();
+    this.playerCoordinates = this.objectGrid[1][6];
+  }
+
+  movePlayer(direction) {
+    const playerObject = this.playerCoordinates;
+    const playerRow = playerObject.row;
+    const playerColumn = playerObject.column;
+    debugger
+    if (direction === "left") {
+      const objLeftOfPlayer = this.objectGrid[playerRow - 1][playerColumn];
+      this.objectGrid[playerRow - 1][playerColumn] = playerObject;
+      this.objectGrid[playerRow][playerColumn] = objLeftOfPlayer;
+    }
+
+    this.render();
   }
 
   compile() {
@@ -176,19 +196,19 @@ class Board {
       return array.map((symbol, colIndex) => {
         switch(symbol) {
           case "#":
-            return new Wall(colIndex, rowIndex);
+            return new Wall(rowIndex, colIndex);
 
           case " ":
-            return new Floor(colIndex, rowIndex);
+            return new Floor(rowIndex, colIndex);
 
           case ".":
-            return new Checkpoint(colIndex, rowIndex);
+            return new Checkpoint(rowIndex, colIndex);
 
           case "$":
-            return new Box(colIndex, rowIndex);
+            return new Box(rowIndex, colIndex);
 
           case "@":
-            return new Player(colIndex, rowIndex);
+            return new Player(rowIndex, colIndex);
         }
       });
     });
@@ -205,7 +225,48 @@ class Board {
 
 }
 
-window.Board = new Board();
+const board = new Board();
+window.board = board;
+
+let canvas;
+let lastDownTarget;
+window.onload = () => {
+  canvas = document.getElementById("canvas");
+
+  document.addEventListener("mousedown", (event) => {
+    lastDownTarget = event.target;
+  });
+
+  document.addEventListener("keydown", function(event) {
+    if(lastDownTarget === canvas) {
+      alert("You've pressed a key!");
+      switch(event.keyCode) {
+        // left
+        case 37:
+          board.movePlayer("left");
+          break;
+
+        //up
+        case 38:
+          board.movePlayer("up");
+          break;
+
+        //right
+        case 39:
+          board.movePlayer("right");
+          break;
+
+        //down
+        case 40:
+          board.movePlayer("down");
+        break;
+      }
+    }
+  })
+}
+
+
+
 /* unused harmony default export */ var _unused_webpack_default_export = Board;
 
 
