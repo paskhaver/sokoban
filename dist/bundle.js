@@ -77,15 +77,6 @@
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tiles_player_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__ = __webpack_require__(8);
-// Level element      Character  ASCII Code
-// Wall                  #         0x23
-// Player                @         0x40
-// Player on goal square +         0x2b
-// Box                   $         0x24
-// Box on goal square    *         0x2a
-// Goal square           .         0x2e
-// Floor              (Space)      0x20
-
 
 
 
@@ -95,81 +86,263 @@
 
 class Board {
 
-  constructor(level = 1) {
+  constructor(textGrid) {
 
     this.stage = new createjs.Stage("canvas");
-    this.tileSize = 64;
-    this.textGrid = [
-      ["#", "#", "#", "#", "#", "#", "#", "#"],
-      ["#", "#", "#", " ", ".", ".", "@", "#"],
-      ["#", "#", "#", " ", "$", "$", " ", "#"],
-      ["#", "#", "#", "#", " ", "#", "#", "#"],
-      ["#", "#", "#", "#", " ", "#", "#", "#"],
-      ["#", "#", "#", "#", " ", "#", "#", "#"],
-      ["#", "#", "#", "#", " ", "#", "#", "#"],
-      ["#", " ", " ", " ", " ", "#", "#", "#"],
-      ["#", " ", "#", " ", " ", " ", "#", "#"],
-      ["#", " ", " ", " ", "#", " ", "#", "#"],
-      ["#", "#", "#", " ", " ", " ", "#", "#"],
-      ["#", "#", "#", "#", "#", "#", "#", "#"],
-    ];
+    this.textGrid = textGrid;
 
     this.objectGrid = this.compile();
-    this.playerCoordinates = this.objectGrid[1][6];
-
-    this.lastRow = this.objectGrid.length - 1;
-    this.lastCol = this.objectGrid[0].length - 1;
+    this.lastRow    = this.objectGrid.length - 1;
+    this.lastCol    = this.objectGrid[0].length - 1;
 
     this.render();
 
   }
 
+  getPlayerInfo() {
+    const playerObject = this.playerObject;
+    const row    = playerObject.row;
+    const column = playerObject.column;
+    return { playerObject, row, column };
+  }
+
+  getGridObject(row, column) {
+    if (row < 0 || column < 0) { return undefined; }
+    return this.objectGrid[row][column];
+  }
+
+  setGridObject(row, column, object) {
+    this.objectGrid[row][column] = object;
+  }
+
+  handleLeftMovement() {
+
+    const { playerObject, row, column } = this.getPlayerInfo();
+    if (column === 0) { return; }
+
+    const playerTile       = this.getGridObject(row, column);
+    const oneLeftOfPlayer = this.getGridObject(row, column - 1);
+    const twoLeftOfPlayer = this.getGridObject(row, column - 2);
+    const player           = playerTile.player;
+    let box;
+
+    if (
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoLeftOfPlayer.box) ||
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoLeftOfPlayer.box) ||
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoLeftOfPlayer.box) ||
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoLeftOfPlayer.box)
+    ) {
+      return;
+    }
+
+    if (
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !oneLeftOfPlayer.box) ||
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !oneLeftOfPlayer.box)
+    ) {
+      oneLeftOfPlayer.player = playerTile.player;
+      playerTile.player = false;
+      player.column -= 1;
+      this.render();
+      return;
+    }
+
+    if (
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !twoLeftOfPlayer.box) ||
+      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !twoLeftOfPlayer.box)
+    ) {
+        twoLeftOfPlayer.box = oneLeftOfPlayer.box;
+        oneLeftOfPlayer.box = false;
+        oneLeftOfPlayer.player = playerTile.player;
+        playerTile.player = false;
+        player.column -= 1;
+        this.render();
+        return;
+    }
+
+  }
+
+  handleRightMovement() {
+
+    const { playerObject, row, column } = this.getPlayerInfo();
+    if (column === this.lastCol) { return; }
+
+    const playerTile       = this.getGridObject(row, column);
+    const oneRightOfPlayer = this.getGridObject(row, column + 1);
+    const twoRightOfPlayer = this.getGridObject(row, column + 2);
+    const player           = playerTile.player;
+    let box;
+
+    if (
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoRightOfPlayer.box) ||
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoRightOfPlayer.box) ||
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoRightOfPlayer.box) ||
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoRightOfPlayer.box)
+    ) {
+      return;
+    }
+
+    if (
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !oneRightOfPlayer.box) ||
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !oneRightOfPlayer.box)
+    ) {
+      oneRightOfPlayer.player = playerTile.player;
+      playerTile.player = false;
+      player.column += 1;
+      this.render();
+      return;
+    }
+
+    if (
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !twoRightOfPlayer.box) ||
+      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !twoRightOfPlayer.box)
+    ) {
+        twoRightOfPlayer.box = oneRightOfPlayer.box;
+        oneRightOfPlayer.box = false;
+        oneRightOfPlayer.player = playerTile.player;
+        playerTile.player = false;
+        player.column += 1;
+        this.render();
+        return;
+    }
+
+  }
+
+
+
+  handleUpMovement() {
+
+    const { playerObject, row, column } = this.getPlayerInfo();
+    if (row === 0) { return; }
+
+    const playerTile       = this.getGridObject(row, column);
+    const oneNorthOfPlayer = this.getGridObject(row - 1, column);
+    const twoNorthOfPlayer = this.getGridObject(row - 2, column);
+    const player           = playerTile.player;
+    let box;
+
+    if (
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoNorthOfPlayer.box) ||
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoNorthOfPlayer.box) ||
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoNorthOfPlayer.box) ||
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoNorthOfPlayer.box)
+    ) {
+      return;
+    }
+
+    if (
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !oneNorthOfPlayer.box) ||
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !oneNorthOfPlayer.box)
+    ) {
+      oneNorthOfPlayer.player = playerTile.player;
+      playerTile.player = false;
+      player.row -= 1;
+      this.render();
+      return;
+    }
+
+    if (
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !twoNorthOfPlayer.box) ||
+      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !twoNorthOfPlayer.box)
+    ) {
+        twoNorthOfPlayer.box = oneNorthOfPlayer.box;
+        oneNorthOfPlayer.box = false;
+        oneNorthOfPlayer.player = playerTile.player;
+        playerTile.player = false;
+        player.row -= 1;
+        this.render();
+        return;
+    }
+
+  }
+
+  handleDownMovement() {
+    const { playerObject, row, column } = this.getPlayerInfo();
+    if (row === this.lastRow) { return; }
+
+    const playerTile       = this.getGridObject(row, column);
+    const oneSouthOfPlayer = this.getGridObject(row + 1, column);
+    const twoSouthOfPlayer = this.getGridObject(row + 2, column);
+    const player           = playerTile.player;
+    let box;
+
+    if (
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoSouthOfPlayer.box) ||
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoSouthOfPlayer.box) ||
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoSouthOfPlayer.box) ||
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoSouthOfPlayer.box)
+    ) {
+      return;
+    }
+
+    if (
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !oneSouthOfPlayer.box) ||
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !oneSouthOfPlayer.box)
+    ) {
+      oneSouthOfPlayer.player = playerTile.player;
+      playerTile.player = false;
+      player.row += 1;
+      this.render();
+      return;
+    }
+
+    if (
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !twoSouthOfPlayer.box) ||
+      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !twoSouthOfPlayer.box)
+    ) {
+        twoSouthOfPlayer.box = oneSouthOfPlayer.box;
+        oneSouthOfPlayer.box = false;
+        oneSouthOfPlayer.player = playerTile.player;
+        playerTile.player = false;
+        player.row += 1;
+        this.render();
+        return;
+    }
+  }
+
+  gameOver() {
+    const flattened = _.flatten(this.objectGrid);
+    const checkpoints = flattened.filter(object => {
+      return object instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */];
+    });
+    return checkpoints.every(checkpoint => {
+      return checkpoint.box;
+    });
+  }
+
   movePlayer(direction) {
     this.stage.removeAllChildren();
-    const playerObject = this.playerCoordinates;
-    const playerRow = playerObject.row;
-    const playerColumn = playerObject.column;
 
-    if (direction === "left") {
-      if (playerColumn === 0) { return; }
-      const objLeftOfPlayer = this.objectGrid[playerRow][playerColumn - 1];
-      if (objLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) { return; }
-            playerObject.column -= 1;
-            objLeftOfPlayer.column += 1;
+    switch(direction) {
+      case "left":
+        this.handleLeftMovement();
+        break;
 
-      this.objectGrid[playerRow][playerColumn - 1] = playerObject;
-      this.objectGrid[playerRow][playerColumn] = objLeftOfPlayer;
+      case "right":
+        this.handleRightMovement();
+        break;
 
-    } else if (direction === "right") {
-      if (playerColumn === this.lastCol) { return; }
-      const objRightOfPlayer = this.objectGrid[playerRow][playerColumn + 1];
-      if (objRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) { return; }
+      case "up":
+        this.handleUpMovement();
+        break;
 
-            playerObject.column += 1;
-            objRightOfPlayer.column -= 1;
+      case "down":
+        this.handleDownMovement();
+        break;
 
-      this.objectGrid[playerRow][playerColumn + 1] = playerObject;
-      this.objectGrid[playerRow][playerColumn] = objRightOfPlayer;
-
-    }  else if (direction === "up") {
-      if (playerRow === 0) { return; }
-      const objNorthOfPlayer = this.objectGrid[playerRow - 1][playerColumn];
-        if (objNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) { return; }
-            playerObject.row -= 1;
-            objNorthOfPlayer.row += 1;
-
-      this.objectGrid[playerRow - 1][playerColumn] = playerObject;
-      this.objectGrid[playerRow][playerColumn] = objNorthOfPlayer;
-    }
-      else if (direction === "down") {
-      if (playerRow === this.lastRow) { return; }
-      const objSouthOfPlayer = this.objectGrid[playerRow + 1][playerColumn];
-      if (objSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) { return; }
-            playerObject.row += 1;
-            objSouthOfPlayer.row -= 1;
-
-      this.objectGrid[playerRow + 1][playerColumn] = playerObject;
-      this.objectGrid[playerRow][playerColumn] = objSouthOfPlayer;
+      default:
+        break;
     }
 
     this.render();
@@ -178,6 +351,7 @@ class Board {
   compile() {
     return this.textGrid.map((array, rowIndex) => {
       return array.map((symbol, colIndex) => {
+        let floor, box, player;
         switch(symbol) {
           case "#":
             return new __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */](rowIndex, colIndex);
@@ -189,10 +363,17 @@ class Board {
             return new __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */](rowIndex, colIndex);
 
           case "$":
-            return new __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__["a" /* default */](rowIndex, colIndex);
+            floor = new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
+            box   = new __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__["a" /* default */](rowIndex, colIndex);
+            floor.box = box;
+            return floor;
 
           case "@":
-            return new __WEBPACK_IMPORTED_MODULE_3__tiles_player_js__["a" /* default */](rowIndex, colIndex);
+            floor = new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
+            player = new __WEBPACK_IMPORTED_MODULE_3__tiles_player_js__["a" /* default */](rowIndex, colIndex);
+            floor.player = player;
+            this.playerObject = player;
+            return floor;
         }
       });
     });
@@ -209,9 +390,6 @@ class Board {
 
 }
 
-const board = new Board();
-window.board = board;
-
 let canvas;
 let lastDownTarget;
 
@@ -223,8 +401,8 @@ window.onload = () => {
   });
 
   document.addEventListener("keydown", function(event) {
+    event.preventDefault();
     if(lastDownTarget === canvas) {
-      // alert("You've pressed a key!");
       switch(event.keyCode) {
         // left
         case 37:
@@ -247,12 +425,17 @@ window.onload = () => {
         break;
       }
     }
+
+    if (board.gameOver()) {
+      alert("You win!");
+    }
+
   });
 };
 
 
 
-/* unused harmony default export */ var _unused_webpack_default_export = Board;
+/* harmony default export */ __webpack_exports__["a"] = Board;
 
 
 /***/ }),
@@ -262,6 +445,7 @@ window.onload = () => {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__levels_js__ = __webpack_require__(9);
 // Level element      Character  ASCII Code
 // Wall                  #         0x23
 // Player                @         0x40
@@ -273,22 +457,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 class Sokoban {
 
   constructor() {
     const canvas =  document.getElementById("canvas");
           canvas.width = 640;
           canvas.height = 640;
+
+    this.level = 0;
+    const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
+    this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
   }
-
-  play() {
-
-  }
-
 
 }
 
+const sokoban = new Sokoban();
+const board = sokoban.board;
+
+
 /* harmony default export */ __webpack_exports__["default"] = Sokoban;
+
+let canvas;
+let lastDownTarget;
+
+window.onload = () => {
+  canvas = document.getElementById("canvas");
+
+  document.addEventListener("mousedown", (event) => {
+    lastDownTarget = event.target;
+  });
+
+  document.addEventListener("keydown", function(event) {
+    event.preventDefault();
+    if(lastDownTarget === canvas) {
+      switch(event.keyCode) {
+        // left
+        case 37:
+          board.movePlayer("left");
+          break;
+
+        //up
+        case 38:
+          board.movePlayer("up");
+          break;
+
+        //right
+        case 39:
+          board.movePlayer("right");
+          break;
+
+        //down
+        case 40:
+          board.movePlayer("down");
+        break;
+      }
+    }
+
+  });
+};
 
 
 /***/ }),
@@ -305,19 +532,26 @@ class Tile {
   }
 
   render(stage) {
-    const image = new Image();
-          image.src = this.imageSrc;
-          image.onload = (event) => {
-            const bitmap = new createjs.Bitmap(event.target);
-            bitmap.scaleX = 0.5;
-            bitmap.scaleY = 0.5;
-            bitmap.x = this.column * 64;
-            bitmap.y = this.row * 64;
+    let image = new Image();
+    if (this.player) {
+      image.src = this.player.imageSrc;
+    } else if (this.box) {
+      image.src = this.box.imageSrc;
+    } else {
+      image.src = this.imageSrc;
+    }
 
-            stage.addChild(bitmap);
-            stage.update();
-          };
+    image.onload = (event) => {
+      const bitmap = new createjs.Bitmap(event.target);
+      bitmap.scaleX = 0.5;
+      bitmap.scaleY = 0.5;
+      bitmap.x = this.column * 64;
+      bitmap.y = this.row * 64;
+      stage.addChild(bitmap);
+      stage.update();
+    };
   }
+
 }
 
 /* harmony default export */ __webpack_exports__["a"] = Tile;
@@ -332,9 +566,12 @@ class Tile {
 
 
 class Floor extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+
   constructor(row, column) {
     super(row, column);
     this.imageSrc = "./PNG/Ground/ground_04.png";
+    this.player = false;
+    this.box = false;
   }
 }
 
@@ -367,6 +604,8 @@ class Wall extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__floor__ = __webpack_require__(4);
+
 
 
 class Player extends __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* default */] {
@@ -393,6 +632,7 @@ class Box extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
   constructor(row, column) {
     super(row, column);
     this.imageSrc = "./PNG/Crates/crate_05.png";
+    this.onCheckPoint = false;
   }
 
 }
@@ -413,11 +653,60 @@ class Checkpoint extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default *
   constructor(row, column) {
     super(row, column);
     this.imageSrc = "./PNG/Crates/crate_30.png";
+    this.player = false;
+    this.box = false;
   }
 
 }
 
 /* harmony default export */ __webpack_exports__["a"] = Checkpoint;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// Level element      Character  ASCII Code
+// Wall                  #         0x23
+// Player                @         0x40
+// Player on goal square +         0x2b
+// Box                   $         0x24
+// Box on goal square    *         0x2a
+// Goal square           .         0x2e
+// Floor              (Space)      0x20
+
+const LEVELS = [
+
+  [
+    ["#", "#", "#", "#", "#", "#", "#", "#"],
+    ["#", "#", "#", " ", ".", ".", "@", "#"],
+    ["#", "#", "#", " ", "$", "$", " ", "#"],
+    ["#", "#", "#", "#", " ", "#", "#", "#"],
+    ["#", "#", "#", "#", " ", "#", "#", "#"],
+    ["#", "#", "#", "#", " ", "#", "#", "#"],
+    ["#", "#", "#", "#", " ", "#", "#", "#"],
+    ["#", " ", " ", " ", " ", "#", "#", "#"],
+    ["#", " ", "#", " ", " ", " ", "#", "#"],
+    ["#", " ", " ", " ", "#", " ", "#", "#"],
+    ["#", "#", "#", " ", " ", " ", "#", "#"],
+    ["#", "#", "#", "#", "#", "#", "#", "#"],
+  ],
+
+  [
+    ["#", "#", "#", "#", "#", "#", "#", "#"],
+    ["#", "#", "#", " ", " ", " ", " ", "#"],
+    ["#", "@", " ", "$", "#", " ", "#", "#"],
+    ["#", " ", "#", " ", " ", ".", " ", "#"],
+    ["#", " ", " ", " ", " ", "#", " ", "#"],
+    ["#", "#", " ", "#", " ", " ", " ", "#"],
+    ["#", "#", " ", " ", " ", "#", "#", "#"],
+    ["#", "#", "#", "#", "#", "#", "#", "#"]
+  ]
+
+];
+
+/* harmony default export */ __webpack_exports__["a"] = LEVELS;
 
 
 /***/ })
