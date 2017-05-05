@@ -665,8 +665,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 class Sokoban {
 
-  constructor() {
-    this.level = 0;
+  constructor(level = 1) {
+    this.level = level;
     const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
 
     const canvas =  document.getElementById("canvas");
@@ -675,29 +675,14 @@ class Sokoban {
 
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
   }
-
-  reset() {
-    if (this.board.gameOver()) {
-      this.level += 1;
-      const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
-
-      const canvas =  document.getElementById("canvas");
-            canvas.width =  textGrid[0].length * 64;
-            canvas.height = textGrid.length * 64;
-
-      this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
-    }
-  }
-
 }
-
-const sokoban = new Sokoban();
-const board = sokoban.board;
-window.board = board;
 
 
 window.onload = () => {
-  document.addEventListener("keydown", function(event) {
+  let sokoban = new Sokoban();
+  let board = sokoban.board
+
+  document.addEventListener("keydown", () => {
     event.preventDefault();
       switch(event.keyCode) {
         case 37:
@@ -716,7 +701,13 @@ window.onload = () => {
           board.movePlayer("down");
           break;
       }
-      sokoban.reset();
+
+      if (sokoban.board.gameOver()) {
+        sokoban = new Sokoban(sokoban.level + 1);
+        board = sokoban.board;
+        window.board = board;
+      }
+
   }
   );
 };
