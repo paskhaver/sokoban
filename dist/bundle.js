@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,12 +71,71 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tiles_tile_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__ = __webpack_require__(5);
+class Tile {
+  constructor(row, column) {
+    this.row = row;
+    this.column = column;
+    this.imageSrc = "";
+  }
+
+  render(stage) {
+    let image = new Image();
+    if (this.player) {
+      image.src = this.player.imageSrc;
+    } else if (this.box) {
+      image.src = this.box.imageSrc;
+    } else {
+      image.src = this.imageSrc;
+    }
+
+    image.onload = (event) => {
+      const bitmap = new createjs.Bitmap(event.target);
+      bitmap.scaleX = 0.5;
+      bitmap.scaleY = 0.5;
+      bitmap.x = this.column * 64;
+      bitmap.y = this.row * 64;
+      stage.addChild(bitmap);
+      stage.update();
+    };
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Tile;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(0);
+
+
+class Floor extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Ground/ground_04.png";
+    this.player = false;
+    this.box = false;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Floor;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tiles_tile_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tiles_player_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__ = __webpack_require__(5);
 
 
 
@@ -397,236 +456,7 @@ class Board {
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__levels_js__ = __webpack_require__(9);
-// Level element      Character  ASCII Code
-// Wall                  #         0x23
-// Player                @         0x40
-// Player on goal square +         0x2b
-// Box                   $         0x24
-// Box on goal square    *         0x2a
-// Goal square           .         0x2e
-// Floor              (Space)      0x20
-
-
-
-
-class Sokoban {
-
-  constructor() {
-
-    this.level = 3;
-    const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
-
-    const canvas =  document.getElementById("canvas");
-          canvas.width =  textGrid[0].length * 64;
-          canvas.height = textGrid.length * 64;;
-
-    this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
-  }
-
-}
-
-const sokoban = new Sokoban();
-const board = sokoban.board;
-window.board = board;
-
-
-/* harmony default export */ __webpack_exports__["default"] = Sokoban;
-
-let canvas;
-let lastDownTarget;
-
-window.onload = () => {
-  canvas = document.getElementById("canvas");
-
-  document.addEventListener("mousedown", (event) => {
-    lastDownTarget = event.target;
-  });
-
-  document.addEventListener("keydown", function(event) {
-    event.preventDefault();
-    if(lastDownTarget === canvas) {
-      switch(event.keyCode) {
-        // left
-        case 37:
-          board.movePlayer("left");
-          break;
-
-        //up
-        case 38:
-          board.movePlayer("up");
-          break;
-
-        //right
-        case 39:
-          board.movePlayer("right");
-          break;
-
-        //down
-        case 40:
-          board.movePlayer("down");
-        break;
-      }
-    }
-
-    board.stepCount += 1;
-
-  });
-};
-
-
-/***/ }),
-/* 2 */,
 /* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-class Tile {
-  constructor(row, column) {
-    this.row = row;
-    this.column = column;
-    this.imageSrc = "";
-  }
-
-  render(stage) {
-    let image = new Image();
-    if (this.player) {
-      image.src = this.player.imageSrc;
-    } else if (this.box) {
-      image.src = this.box.imageSrc;
-    } else {
-      image.src = this.imageSrc;
-    }
-
-    image.onload = (event) => {
-      const bitmap = new createjs.Bitmap(event.target);
-      bitmap.scaleX = 0.5;
-      bitmap.scaleY = 0.5;
-      bitmap.x = this.column * 64;
-      bitmap.y = this.row * 64;
-      stage.addChild(bitmap);
-      stage.update();
-    };
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = Tile;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(3);
-
-
-class Floor extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
-
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Ground/ground_04.png";
-    this.player = false;
-    this.box = false;
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = Floor;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(3);
-
-
-class Wall extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
-
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Environment/environment_04.png";
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = Wall;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__floor__ = __webpack_require__(4);
-
-
-
-class Player extends __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* default */] {
-
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Player/player_04.png";
-  }
-}
-
-/* harmony default export */ __webpack_exports__["a"] = Player;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(3);
-
-
-class Box extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
-
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Crates/crate_05.png";
-    this.onCheckPoint = false;
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = Box;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(3);
-
-
-class Checkpoint extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
-
-  constructor(row, column) {
-    super(row, column);
-    this.imageSrc = "./PNG/Crates/crate_30.png";
-    this.player = false;
-    this.box = false;
-  }
-
-}
-
-/* harmony default export */ __webpack_exports__["a"] = Checkpoint;
-
-
-/***/ }),
-/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -696,6 +526,175 @@ const LEVELS = [
 ];
 
 /* harmony default export */ __webpack_exports__["a"] = LEVELS;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(0);
+
+
+class Box extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Crates/crate_05.png";
+    this.onCheckPoint = false;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Box;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(0);
+
+
+class Checkpoint extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Crates/crate_30.png";
+    this.player = false;
+    this.box = false;
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Checkpoint;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__floor__ = __webpack_require__(1);
+
+
+
+class Player extends __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Player/player_04.png";
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Player;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile_js__ = __webpack_require__(0);
+
+
+class Wall extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
+
+  constructor(row, column) {
+    super(row, column);
+    this.imageSrc = "./PNG/Environment/environment_04.png";
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["a"] = Wall;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__levels_js__ = __webpack_require__(3);
+// Level element      Character  ASCII Code
+// Wall                  #         0x23
+// Player                @         0x40
+// Player on goal square +         0x2b
+// Box                   $         0x24
+// Box on goal square    *         0x2a
+// Goal square           .         0x2e
+// Floor              (Space)      0x20
+
+
+
+
+class Sokoban {
+
+  constructor() {
+
+    this.level = 0;
+    const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
+
+    const canvas =  document.getElementById("canvas");
+          canvas.width =  textGrid[0].length * 64;
+          canvas.height = textGrid.length * 64;;
+
+    this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
+  }
+
+}
+
+const sokoban = new Sokoban();
+const board = sokoban.board;
+window.board = board;
+
+
+/* harmony default export */ __webpack_exports__["default"] = Sokoban;
+
+let canvas;
+let lastDownTarget;
+
+window.onload = () => {
+  canvas = document.getElementById("canvas");
+
+  document.addEventListener("mousedown", (event) => {
+    lastDownTarget = event.target;
+  });
+
+  document.addEventListener("keydown", function(event) {
+    event.preventDefault();
+    if(lastDownTarget === canvas) {
+      switch(event.keyCode) {
+        // left
+        case 37:
+          board.movePlayer("left");
+          break;
+
+        //up
+        case 38:
+          board.movePlayer("up");
+          break;
+
+        //right
+        case 39:
+          board.movePlayer("right");
+          break;
+
+        //down
+        case 40:
+          board.movePlayer("down");
+        break;
+      }
+    }
+
+    board.stepCount += 1;
+
+  });
+};
 
 
 /***/ })
