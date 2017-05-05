@@ -384,18 +384,22 @@ class Board {
 
     switch(direction) {
       case "left":
+        this.playerObject.switchImage("left");
         this.handleLeftMovement();
         break;
 
       case "right":
+      this.playerObject.switchImage("right");
         this.handleRightMovement();
         break;
 
       case "up":
+        this.playerObject.switchImage("up");
         this.handleUpMovement();
         break;
 
       case "down":
+        this.playerObject.switchImage("down");
         this.handleDownMovement();
         break;
 
@@ -598,6 +602,31 @@ class Player extends __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* default */] {
     super(row, column);
     this.imageSrc = "./PNG/Player/player_04.png";
   }
+
+  switchImage(direction) {
+    switch(direction) {
+      case "up":
+        this.imageSrc = "./PNG/Player/player_01.png";
+        break;
+
+      case "down":
+        this.imageSrc = "./PNG/Player/player_04.png";
+        break;
+
+      case "left":
+        this.imageSrc = "./PNG/Player/player_13.png";
+        break;
+
+      case "right":
+        this.imageSrc = "./PNG/Player/player_16.png";
+        break;
+
+      default:
+        this.imageSrc = "./PNG/Player/player_04.png";
+        break;
+    }
+  }
+
 }
 
 /* harmony default export */ __webpack_exports__["a"] = Player;
@@ -642,12 +671,22 @@ class Sokoban {
 
     const canvas =  document.getElementById("canvas");
           canvas.width =  textGrid[0].length * 64;
-          canvas.height = textGrid.length * 64;;
+          canvas.height = textGrid.length * 64;
 
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
   }
 
   reset() {
+    if (this.board.gameOver()) {
+      this.level += 1;
+      const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
+
+      const canvas =  document.getElementById("canvas");
+            canvas.width =  textGrid[0].length * 64;
+            canvas.height = textGrid.length * 64;
+
+      this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
+    }
   }
 
 }
@@ -677,7 +716,9 @@ window.onload = () => {
           board.movePlayer("down");
           break;
       }
-  });
+      sokoban.reset();
+  }
+  );
 };
 
 
