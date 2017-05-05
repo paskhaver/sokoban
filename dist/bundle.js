@@ -171,10 +171,6 @@ class Board {
     return this.objectGrid[row][column];
   }
 
-  setGridObject(row, column, object) {
-    this.objectGrid[row][column] = object;
-  }
-
   handleLeftMovement() {
 
     const { playerObject, row, column } = this.getPlayerInfo();
@@ -354,6 +350,7 @@ class Board {
       playerTile.player = false;
       player.row += 1;
       this.render();
+      this.stepCount += 1;
       return;
     }
 
@@ -367,12 +364,13 @@ class Board {
         playerTile.player = false;
         player.row += 1;
         this.render();
+        this.stepCount += 1;
         return;
     }
   }
 
   gameOver() {
-    const flattened = _.flatten(this.objectGrid);
+    const flattened   = _.flatten(this.objectGrid);
     const checkpoints = flattened.filter(object => {
       return object instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */];
     });
@@ -447,10 +445,7 @@ class Board {
     });
   }
 
-
 }
-
-
 
 /* harmony default export */ __webpack_exports__["a"] = Board;
 
@@ -636,23 +631,13 @@ class Wall extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__board_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__levels_js__ = __webpack_require__(3);
-// Level element      Character  ASCII Code
-// Wall                  #         0x23
-// Player                @         0x40
-// Player on goal square +         0x2b
-// Box                   $         0x24
-// Box on goal square    *         0x2a
-// Goal square           .         0x2e
-// Floor              (Space)      0x20
-
 
 
 
 class Sokoban {
 
   constructor() {
-
-    this.level = 3;
+    this.level = 0;
     const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
 
     const canvas =  document.getElementById("canvas");
@@ -662,6 +647,9 @@ class Sokoban {
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
   }
 
+  reset() {
+  }
+
 }
 
 const sokoban = new Sokoban();
@@ -669,46 +657,26 @@ const board = sokoban.board;
 window.board = board;
 
 
-/* harmony default export */ __webpack_exports__["default"] = Sokoban;
-
-let canvas;
-let lastDownTarget;
-
 window.onload = () => {
-  canvas = document.getElementById("canvas");
-
-  document.addEventListener("mousedown", (event) => {
-    lastDownTarget = event.target;
-  });
-
   document.addEventListener("keydown", function(event) {
     event.preventDefault();
-    if(lastDownTarget === canvas) {
       switch(event.keyCode) {
-        // left
         case 37:
           board.movePlayer("left");
           break;
 
-        //up
         case 38:
           board.movePlayer("up");
           break;
 
-        //right
         case 39:
           board.movePlayer("right");
           break;
 
-        //down
         case 40:
           board.movePlayer("down");
-        break;
+          break;
       }
-    }
-
-    board.stepCount += 1;
-
   });
 };
 
