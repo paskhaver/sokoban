@@ -116,7 +116,7 @@ class Floor extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
 
   constructor(row, column) {
     super(row, column);
-    this.imageSrc = "./PNG/Ground/ground_04.png";
+    this.imageSrc = `./PNG/Ground/ground.png`;
     this.player = false;
     this.box = false;
   }
