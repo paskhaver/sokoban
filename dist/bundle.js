@@ -419,12 +419,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 class Sokoban {
 
   constructor() {
-    const canvas =  document.getElementById("canvas");
-          canvas.width = 640;
-          canvas.height = 640;
 
-    this.level = 0;
+    this.level = 3;
     const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
+
+    const canvas =  document.getElementById("canvas");
+          canvas.width =  textGrid[0].length * 64;
+          canvas.height = textGrid.length * 64;;
+
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
   }
 
@@ -663,6 +665,32 @@ const LEVELS = [
     ["#", "#", " ", "#", " ", " ", " ", "#"],
     ["#", "#", " ", " ", " ", "#", "#", "#"],
     ["#", "#", "#", "#", "#", "#", "#", "#"]
+  ],
+
+  // Super easy - level 1
+  [
+    ["#", "#", "#", "#", "#", "#", "#", "#"],
+    ["#", "#", "#", ".", "#", "#", "#", "#"],
+    ["#", "#", "#", " ", "#", "#", "#", "#"],
+    ["#", "#", "#", "$", " ", "$", ".", "#"],
+    ["#", ".", " ", "$", "@", "#", "#", "#"],
+    ["#", "#", "#", "#", "$", "#", "#", "#"],
+    ["#", "#", "#", "#", ".", "#", "#", "#"],
+    ["#", "#", "#", "#", "#", "#", "#", "#"],
+  ],
+
+
+  // Super eays - level 2
+  [
+    ["#", "#", "#", "#", "#", "#", "#", "#"],
+    ["#", " ", " ", " ", "#", "#", "#", "#"],
+    ["#", " ", "$", " ", "#", "#", "#", "#"],
+    ["#", " ", "$", "@", "#", "#", "#", "#"],
+    ["#", "#", "#", "$", "#", "#", "#", "."],
+    ["#", "#", "#", " ", " ", " ", " ", "."],
+    ["#", "#", " ", " ", " ", "#", " ", "."],
+    ["#", "#", " ", " ", " ", "#", "#", "#"],
+    ["#", "#", "#", "#", "#", "#", "#", "#"],
   ]
 
 ];
