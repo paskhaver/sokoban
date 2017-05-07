@@ -5,6 +5,7 @@ body, header, h1, canvas, footer {
 }
 
 header {
+  font-family: 'Raleway', sans-serif;
   margin: 20px auto;
   width: 80%;
   height: 100px;
@@ -14,21 +15,31 @@ header {
 }
 
 header > h1 {
-
+  padding-top: 20px;
+  font-size: 48px;
 }
 
 .middle-container {
+  font-family: 'Raleway', sans-serif;
   width: 80%;
   margin: 0 auto;
 
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+.middle-container h2 {
+  padding-left: 20px;
+}
+
+.middle-container p {
+  padding: 0px 20px;
+  font-size: 20px;
 }
 
 .instructions {
   width: 350px;
-  height: 640px;
   background-color: orange;
   border-radius: 6px;
 }
