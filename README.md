@@ -2,7 +2,7 @@
 
 ## Live Link
 
-![Sokoban](https://paskhaver.github.io/sokoban/)
+[Sokoban](https://paskhaver.github.io/sokoban/)
 
 ## Background
 
