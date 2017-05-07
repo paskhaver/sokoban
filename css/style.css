@@ -1,8 +1,10 @@
-body, header, h1, canvas, footer, button {
+body, header, h1, h4, canvas, footer, button, img {
   margin: 0px;
   padding: 0px;
   border: 0px;
+}
 
+body  {
   background-color: #87cefa;
 }
 
@@ -18,7 +20,8 @@ header {
 
 header > h1 {
   padding-top: 20px;
-  font-size: 48px;
+  font-weight: bold;
+  font-size: 60px;
 }
 
 .middle-container {
@@ -78,8 +81,16 @@ canvas {
 footer {
   margin: 20px auto;
   width: 80%;
-  height: 100px;
+  height: 120px;
   border-radius: 6px;
-  background-color: pink;
+  background-color: #FFFFCC;
   text-align: center;
+}
+
+footer img {
+  padding: 20px 20px;
+}
+
+footer span {
+
 }
