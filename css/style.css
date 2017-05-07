@@ -2,6 +2,8 @@ body, header, h1, h4, canvas, footer, button, img {
   margin: 0px;
   padding: 0px;
   border: 0px;
+
+  zoom: 75%;
 }
 
 body  {
