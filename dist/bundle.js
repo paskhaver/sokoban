@@ -80,10 +80,10 @@ class Tile {
 
   createBitmap(stage, imagePath, x, y) {
     const bitmap = new createjs.Bitmap(imagePath);
-          // bitmap.scaleX = 0.5;
-          // bitmap.scaleY = 0.5;
-          bitmap.x = this.column * 128;
-          bitmap.y = this.row * 128;
+          bitmap.scaleX = 0.5;
+          bitmap.scaleY = 0.5;
+          bitmap.x = this.column * 64;
+          bitmap.y = this.row * 64;
 
     stage.addChild(bitmap);
     stage.update();
@@ -698,8 +698,8 @@ class Sokoban {
     const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
 
     const canvas =  document.getElementById("canvas");
-          canvas.width =  textGrid[0].length * 128;
-          canvas.height = textGrid.length * 128;
+          canvas.width =  textGrid[0].length * 64;
+          canvas.height = textGrid.length * 64;
 
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
   }

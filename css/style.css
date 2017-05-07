@@ -42,7 +42,7 @@ header > h1 {
 
 .middle-container p {
   padding: 0px 20px;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 .instructions {
@@ -63,7 +63,7 @@ canvas {
 
 .bonus h2 {
   padding: 20px 20px;
-  font-size: 40px;
+  font-size: 30px;
 }
 
 #reset-level, #reset-game {
