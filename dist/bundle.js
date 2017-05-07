@@ -375,7 +375,6 @@ class Board {
       playerTile.player = false;
       player.row += 1;
       this.render();
-      this.stepCount += 1;
       return;
     }
 
@@ -389,7 +388,6 @@ class Board {
         playerTile.player = false;
         player.row += 1;
         this.render();
-        this.stepCount += 1;
         return;
     }
   }
@@ -432,6 +430,7 @@ class Board {
         break;
     }
 
+    this.stepCount++;
     this.render();
   }
 
@@ -705,7 +704,12 @@ class Sokoban {
 
 window.onload = () => {
   let sokoban = new Sokoban();
-  let board = sokoban.board
+  let board = sokoban.board;
+
+  $("#reset-level").click(event => {
+    sokoban = new Sokoban(sokoban.level);
+    board = sokoban.board;
+  });
 
   document.addEventListener("keydown", () => {
     event.preventDefault();
@@ -727,12 +731,13 @@ window.onload = () => {
           break;
       }
 
+      $("#steps-taken").text(board.stepCount);
+
       if (sokoban.board.gameOver()) {
         sokoban = new Sokoban(sokoban.level + 1);
         board = sokoban.board;
         window.board = board;
       }
-
   }
   );
 };

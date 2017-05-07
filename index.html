@@ -6,6 +6,10 @@
 
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
   </head>
 
@@ -18,7 +22,10 @@
     <div class="middle-container">
       <div class="instructions"></div>
       <canvas id="canvas"></canvas>
-      <div class="bonus"></div>
+      <div class="bonus">
+        <p>Steps Taken: <span id="steps-taken">0</span></p>
+        <button id="reset-level">Reset Level</button>
+      </div>
     </div>
 
     <footer>
