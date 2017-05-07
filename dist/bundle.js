@@ -80,10 +80,10 @@ class Tile {
 
   createBitmap(stage, imagePath, x, y) {
     const bitmap = new createjs.Bitmap(imagePath);
-          bitmap.scaleX = 0.5;
-          bitmap.scaleY = 0.5;
-          bitmap.x = this.column * 64;
-          bitmap.y = this.row * 64;
+          // bitmap.scaleX = 0.5;
+          // bitmap.scaleY = 0.5;
+          bitmap.x = this.column * 128;
+          bitmap.y = this.row * 128;
 
     stage.addChild(bitmap);
     stage.update();
@@ -228,6 +228,7 @@ class Board {
       oneLeftOfPlayer.player = playerTile.player;
       playerTile.player = false;
       player.column -= 1;
+      this.stepCount++;
       this.render();
       return;
     }
@@ -242,6 +243,7 @@ class Board {
         playerTile.player = false;
         player.column -= 1;
         this.boxPushes++;
+        this.stepCount++;
         this.render();
         return;
     }
@@ -278,6 +280,7 @@ class Board {
       oneRightOfPlayer.player = playerTile.player;
       playerTile.player = false;
       player.column += 1;
+      this.stepCount++;
       this.render();
       return;
     }
@@ -292,6 +295,7 @@ class Board {
         playerTile.player = false;
         player.column += 1;
         this.boxPushes++;
+        this.stepCount++;
         this.render();
         return;
     }
@@ -330,6 +334,7 @@ class Board {
       oneNorthOfPlayer.player = playerTile.player;
       playerTile.player = false;
       player.row -= 1;
+      this.stepCount++;
       this.render();
       return;
     }
@@ -344,6 +349,7 @@ class Board {
         playerTile.player = false;
         player.row -= 1;
         this.boxPushes++;
+        this.stepCount++;
         this.render();
         return;
     }
@@ -379,6 +385,7 @@ class Board {
       oneSouthOfPlayer.player = playerTile.player;
       playerTile.player = false;
       player.row += 1;
+      this.stepCount++;
       this.render();
       return;
     }
@@ -392,6 +399,7 @@ class Board {
         oneSouthOfPlayer.player = playerTile.player;
         playerTile.player = false;
         player.row += 1;
+        this.stepCount++;
         this.boxPushes++;
         this.render();
         return;
@@ -436,7 +444,6 @@ class Board {
         break;
     }
 
-    this.stepCount++;
     this.render();
   }
 
@@ -552,8 +559,6 @@ const LEVELS = [
     ["#", "#", "#", "#", "#", "#", "#", "#"],
     ["#", "#", "#", " ", ".", ".", "@", "#"],
     ["#", "#", "#", " ", "$", "$", " ", "#"],
-    ["#", "#", "#", "#", " ", "#", "#", "#"],
-    ["#", "#", "#", "#", " ", "#", "#", "#"],
     ["#", "#", "#", "#", " ", "#", "#", "#"],
     ["#", "#", "#", "#", " ", "#", "#", "#"],
     ["#", " ", " ", " ", " ", "#", "#", "#"],
@@ -694,8 +699,8 @@ class Sokoban {
     const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
 
     const canvas =  document.getElementById("canvas");
-          canvas.width =  textGrid[0].length * 64;
-          canvas.height = textGrid.length * 64;
+          canvas.width =  textGrid[0].length * 128;
+          canvas.height = textGrid.length * 128;
 
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
   }
@@ -711,6 +716,14 @@ window.onload = () => {
     board = sokoban.board;
     $("#steps-taken").text(board.stepCount);
     $("#box-pushes").text(board.boxPushes);
+  });
+
+  $("#reset-game").click(event => {
+    sokoban = new Sokoban();
+    board = sokoban.board;
+    $("#steps-taken").text(board.stepCount);
+    $("#box-pushes").text(board.boxPushes);
+    $("#level").text(sokoban.level + 1);
   });
 
   document.addEventListener("keydown", () => {

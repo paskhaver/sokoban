@@ -1,7 +1,9 @@
-body, header, h1, canvas, footer {
+body, header, h1, canvas, footer, button {
   margin: 0px;
   padding: 0px;
   border: 0px;
+
+  background-color: #87cefa;
 }
 
 header {
@@ -10,7 +12,7 @@ header {
   width: 80%;
   height: 100px;
   border-radius: 6px;
-  background-color: pink;
+
   text-align: center;
 }
 
@@ -30,17 +32,19 @@ header > h1 {
 }
 
 .middle-container h2 {
+  font-size: 40px;
+  font-weight: bold;
   padding-left: 20px;
 }
 
 .middle-container p {
   padding: 0px 20px;
-  font-size: 20px;
+  font-size: 28px;
 }
 
 .instructions {
-  width: 350px;
-  background-color: orange;
+  width: 500px;
+  background-color: #ffc962;
   border-radius: 6px;
 }
 
@@ -49,10 +53,26 @@ canvas {
 }
 
 .bonus {
-  width: 350px;
-  height: 640px;
-  background-color: yellow;
+  width: 480px;
+  background-color: #DDFCAD;
   border-radius: 6px;
+}
+
+.bonus h2 {
+  padding: 20px 20px;
+  font-size: 40px;
+}
+
+#reset-level, #reset-game {
+  box-sizing: border-box;
+  margin: 20px 35px;
+  width: 400px;
+  height: 100px;
+  background-color: #FF8784;
+  border: 2px dashed #ffffff;
+  border-radius: 6px;
+  font-size: 32px;
+  font-weight: bold;
 }
 
 footer {
