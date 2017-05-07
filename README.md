@@ -1,5 +1,9 @@
 # Sokoban
 
+## Live Link
+
+![Sokoban](https://paskhaver.github.io/sokoban/)
+
 ## Background
 
 Sokoban is a puzzle game created by Hiroyuki Imabayashi
