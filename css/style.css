@@ -1,4 +1,4 @@
-body, header, h1, h4, canvas, footer, button, img {
+body, header, h1, h4, canvas, footer, button, img, div {
   margin: 0px;
   padding: 0px;
   border: 0px;
@@ -66,7 +66,7 @@ canvas {
   font-size: 30px;
 }
 
-#reset-level, #reset-game {
+#reset-level, .reset-game {
   box-sizing: border-box;
   margin: 20px 35px;
   width: 400px;
@@ -79,7 +79,19 @@ canvas {
 }
 
 #dialog {
-  background-color: orange;
+  margin: 10px auto;
+  border-radius: 6px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+#dialog h3 {
+  padding-top: 20px;
+  font-size: 36px;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
 }
 
 footer {

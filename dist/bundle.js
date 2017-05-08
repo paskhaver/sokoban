@@ -711,20 +711,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("#dialog").dialog({
     autoOpen: false,
-    draggable: true,
     modal: true,
-    width: 8 * 64,
-    height: 8 * 64,
-    buttons: [
-      {
-        text: "Play Again",
-        click: () => {
-          $(this).dialog("close");
-          sokoban = new Sokoban(sokoban.level);
-          board = sokoban.board;
-        }
-      }
-    ]
+    width: 520,
+    height: 600,
+    dialogClass: "no-close"
   });
 
   $("#reset-level").click(event => {
@@ -732,13 +722,13 @@ document.addEventListener("DOMContentLoaded", () => {
     board = sokoban.board;
     $("#steps-taken").text(board.stepCount);
     $("#box-pushes").text(board.boxPushes);
-
-    $("#dialog").dialog("open");
   });
 
-  $("#reset-game").click(event => {
+  $(".reset-game").click(event => {
     sokoban = new Sokoban();
     board = sokoban.board;
+    $("#dialog").dialog("close");
+    $("#canvas").show();
     $("#steps-taken").text(board.stepCount);
     $("#box-pushes").text(board.boxPushes);
     $("#level").text(sokoban.level + 1);
@@ -768,6 +758,13 @@ document.addEventListener("DOMContentLoaded", () => {
       $("#box-pushes").text(board.boxPushes);
 
       if (sokoban.board.gameOver()) {
+
+        if(sokoban.level === 4) {
+          $("#canvas").hide();
+          $("#dialog").dialog("open");
+          return;
+        }
+
         sokoban = new Sokoban(sokoban.level + 1);
         board = sokoban.board;
         window.board = board;

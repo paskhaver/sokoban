@@ -6,22 +6,26 @@
 
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+
     <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 
-  <script
-  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-  crossorigin="anonymous"></script>
+    <script
+    src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+    crossorigin="anonymous">
+    </script>
 
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+
     <link rel="stylesheet" href="css/style.css">
 
   </head>
 
-  <body onload="init()">
+  <body>
 
     <header>
       <h1>Sokoban</h1>
@@ -53,18 +57,24 @@
 
 
       </div>
-      <canvas id="canvas"></canvas>
+      <canvas id="canvas">
+
+      </canvas>
+
+      <div id="dialog">
+        <h3>Congratulations! You won!</h3>
+
+        <img src="PNG/burgundy.jpg" width="400">
+
+        <button class="reset-game">Play Again</button>
+      </div>
 
       <div class="bonus">
         <h2>Level: <span id="level">1</span> of 5</h2>
         <h2>Steps Taken: <span id="steps-taken">0</span></h2>
         <h2>Box Pushes: <span id="box-pushes">0</span></h2>
         <button id="reset-level">Reset Level</button>
-        <button id="reset-game">Reset Game</button>
-      </div>
-
-      <div id="dialog">
-        <p>Congratulations! You won!</p>
+        <button class="reset-game">Reset Game</button>
       </div>
 
     </div>
