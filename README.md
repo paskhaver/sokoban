@@ -24,9 +24,8 @@ the walls or in a corner.
 
 Users will be able to
 - Move a player around a board with the keyboard
-- Push boxes in the direction of movement of the player
-- Score points by placing boxes on checkpoints
-- Restart a round if they create an unsolvable grid
+- Push boxes in the direction of player movement
+- Restart a round or the entire game at will
 - Complete a round by placing all boxes on their designated checkpoints
 
 In addition, the project will include:
@@ -114,6 +113,6 @@ represent the classes.
 
 ## Bonus Features
 
-- Multiple levels
+- [X] Multiple levels
 - Multiple characters
-- Track of player's total moves
+- [X] Track of player's total moves

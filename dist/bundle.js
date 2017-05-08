@@ -705,15 +705,35 @@ class Sokoban {
 }
 
 
-window.onload = () => {
+document.addEventListener("DOMContentLoaded", () => {
   let sokoban = new Sokoban();
   let board = sokoban.board;
+
+  $("#dialog").dialog({
+    autoOpen: false,
+    draggable: true,
+    modal: true,
+    width: 8 * 64,
+    height: 8 * 64,
+    buttons: [
+      {
+        text: "Play Again",
+        click: () => {
+          $(this).dialog("close");
+          sokoban = new Sokoban(sokoban.level);
+          board = sokoban.board;
+        }
+      }
+    ]
+  });
 
   $("#reset-level").click(event => {
     sokoban = new Sokoban(sokoban.level);
     board = sokoban.board;
     $("#steps-taken").text(board.stepCount);
     $("#box-pushes").text(board.boxPushes);
+
+    $("#dialog").dialog("open");
   });
 
   $("#reset-game").click(event => {
@@ -757,7 +777,7 @@ window.onload = () => {
       }
   }
   );
-};
+});
 
 
 /***/ })

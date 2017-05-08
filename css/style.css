@@ -78,6 +78,10 @@ canvas {
   font-weight: bold;
 }
 
+#dialog {
+  background-color: orange;
+}
+
 footer {
   margin: 20px auto;
   width: 80%;
