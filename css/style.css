@@ -48,7 +48,7 @@ header > h1 {
 }
 
 .instructions {
-  width: 500px;
+  width: 480px;
   max-width: 100%;
   margin-top: 20px;
   background-color: #ffc962;
@@ -63,7 +63,7 @@ canvas {
 .bonus {
   /*box-sizing: border-box;*/
   margin-top: 20px;
-  width: 500px;
+  width: 480px;
   background-color: #DDFCAD;
   border-radius: 6px;
 }
