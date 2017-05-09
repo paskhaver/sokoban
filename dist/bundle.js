@@ -706,8 +706,8 @@ class Sokoban {
     const textGrid = __WEBPACK_IMPORTED_MODULE_1__levels_js__["a" /* default */][this.level];
 
     const canvas =  document.getElementById("canvas");
-          canvas.width =  textGrid[0].length * 64;
-          canvas.height = textGrid.length * 64;
+          canvas.width =  512;
+          canvas.height = 512;
 
     this.board = new __WEBPACK_IMPORTED_MODULE_0__board_js__["a" /* default */](textGrid);
   }

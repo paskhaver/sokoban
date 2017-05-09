@@ -11,6 +11,7 @@ body  {
 header {
   font-family: 'Raleway', sans-serif;
   margin: 20px auto;
+  margin-bottom: 0px;
   width: 80%;
   height: 100px;
   border-radius: 6px;
@@ -32,6 +33,7 @@ header > h1 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .middle-container h2 {
@@ -47,16 +49,21 @@ header > h1 {
 
 .instructions {
   width: 500px;
+  max-width: 100%;
+  margin-top: 20px;
   background-color: #ffc962;
   border-radius: 6px;
 }
 
 canvas {
+  margin-top: 20px;
   display: block;
 }
 
 .bonus {
-  width: 480px;
+  /*box-sizing: border-box;*/
+  margin-top: 20px;
+  width: 500px;
   background-color: #DDFCAD;
   border-radius: 6px;
 }
@@ -79,6 +86,7 @@ canvas {
 }
 
 #dialog {
+  width: 500px;
   margin: 10px auto;
   border-radius: 6px;
   background-color: #ffffff;
@@ -97,7 +105,6 @@ canvas {
 footer {
   margin: 20px auto;
   width: 80%;
-  height: 120px;
   border-radius: 6px;
   background-color: #FFFFCC;
   text-align: center;
