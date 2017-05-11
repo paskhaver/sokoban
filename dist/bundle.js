@@ -173,17 +173,49 @@ class Board {
   constructor(textGrid) {
 
     this.stage = new createjs.Stage("canvas");
-    this.textGrid = textGrid;
-
-    this.objectGrid = this.compile();
-    this.lastRow    = this.objectGrid.length - 1;
-    this.lastCol    = this.objectGrid[0].length - 1;
 
     this.stepCount  = 0;
     this.boxPushes  = 0;
 
+    this.objectGrid = this.compile(textGrid);
     this.render();
+  }
 
+  compile(textGrid) {
+    return textGrid.map((array, rowIndex) => {
+      return array.map((symbol, colIndex) => {
+        let floor, box, player;
+        switch(symbol) {
+          case "#":
+            return new __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */](rowIndex, colIndex);
+
+          case " ":
+            return new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
+
+          case ".":
+            return new __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */](rowIndex, colIndex);
+
+          case "$":
+            floor = new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
+            floor.box = new __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__["a" /* default */](rowIndex, colIndex);
+            return floor;
+
+          case "@":
+            floor = new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
+            floor.player = new __WEBPACK_IMPORTED_MODULE_3__tiles_player_js__["a" /* default */](rowIndex, colIndex);
+            this.playerObject = floor.player;
+            return floor;
+        }
+      });
+    });
+  }
+
+  render() {
+    this.objectGrid.forEach(row => {
+      row.forEach(tileClass => {
+        tileClass.render(this.stage);
+      });
+    });
   }
 
   getPlayerInfo() {
@@ -236,7 +268,7 @@ class Board {
   handleRightMovement() {
 
     const { playerObject, row, column } = this.getPlayerInfo();
-    if (column === this.lastCol) { return; }
+    if (column === 7) { return; }
 
     const playerTile       = this.getGridObject(row, column);
     const oneRightOfPlayer = this.getGridObject(row, column + 1);
@@ -305,7 +337,7 @@ class Board {
 
   handleDownMovement() {
     const { playerObject, row, column } = this.getPlayerInfo();
-    if (row === this.lastRow) { return; }
+    if (row === 7) { return; }
 
     const playerTile       = this.getGridObject(row, column);
     const oneSouthOfPlayer = this.getGridObject(row + 1, column);
@@ -376,44 +408,7 @@ class Board {
     this.render();
   }
 
-  compile() {
-    return this.textGrid.map((array, rowIndex) => {
-      return array.map((symbol, colIndex) => {
-        let floor, box, player;
-        switch(symbol) {
-          case "#":
-            return new __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */](rowIndex, colIndex);
 
-          case " ":
-            return new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
-
-          case ".":
-            return new __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */](rowIndex, colIndex);
-
-          case "$":
-            floor = new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
-            box   = new __WEBPACK_IMPORTED_MODULE_4__tiles_box_js__["a" /* default */](rowIndex, colIndex);
-            floor.box = box;
-            return floor;
-
-          case "@":
-            floor = new __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */](rowIndex, colIndex);
-            player = new __WEBPACK_IMPORTED_MODULE_3__tiles_player_js__["a" /* default */](rowIndex, colIndex);
-            floor.player = player;
-            this.playerObject = player;
-            return floor;
-        }
-      });
-    });
-  }
-
-  render() {
-    this.objectGrid.forEach(row => {
-      row.forEach(className => {
-        className.render(this.stage);
-      });
-    });
-  }
 
 }
 
