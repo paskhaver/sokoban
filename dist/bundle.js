@@ -203,7 +203,7 @@ class Board {
     const { playerObject, row, column } = this.getPlayerInfo();
     if (column === 0) { return; }
 
-    const playerTile       = this.getGridObject(row, column);
+    const playerTile      = this.getGridObject(row, column);
     const oneLeftOfPlayer = this.getGridObject(row, column - 1);
     const twoLeftOfPlayer = this.getGridObject(row, column - 2);
     const player           = playerTile.player;
@@ -211,12 +211,8 @@ class Board {
 
     if (
       (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoLeftOfPlayer.box) ||
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoLeftOfPlayer.box) ||
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoLeftOfPlayer.box) ||
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoLeftOfPlayer.box)
+      (oneLeftOfPlayer.box && twoLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneLeftOfPlayer.box && twoLeftOfPlayer.box)
     ) {
       return;
     }
@@ -263,12 +259,8 @@ class Board {
 
     if (
       (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoRightOfPlayer.box) ||
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoRightOfPlayer.box) ||
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoRightOfPlayer.box) ||
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoRightOfPlayer.box)
+      (oneRightOfPlayer.box && twoRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneRightOfPlayer.box && twoRightOfPlayer.box)
     ) {
       return;
     }
@@ -317,12 +309,8 @@ class Board {
 
     if (
       (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoNorthOfPlayer.box) ||
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoNorthOfPlayer.box) ||
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoNorthOfPlayer.box) ||
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoNorthOfPlayer.box)
+      (oneNorthOfPlayer.box && twoNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneNorthOfPlayer.box && twoNorthOfPlayer.box)
     ) {
       return;
     }
@@ -368,12 +356,8 @@ class Board {
 
     if (
       (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoSouthOfPlayer.box) ||
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoSouthOfPlayer.box) ||
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && twoSouthOfPlayer.box) ||
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && twoSouthOfPlayer.box)
+      (oneSouthOfPlayer.box && twoSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
+      (oneSouthOfPlayer.box && twoSouthOfPlayer.box)
     ) {
       return;
     }
