@@ -217,33 +217,20 @@ class Board {
       return;
     }
 
-    if (
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !oneLeftOfPlayer.box) ||
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !oneLeftOfPlayer.box)
-    ) {
-      oneLeftOfPlayer.player = playerTile.player;
-      playerTile.player = false;
-      player.column -= 1;
-      this.stepCount++;
-      this.render();
-      return;
+    oneLeftOfPlayer.player = playerTile.player;
+    player.column -= 1;
+    playerTile.player = false;
+    this.stepCount++;
+
+    if (oneLeftOfPlayer.box) {
+      // If tile one spot from player DOES HAVE a box
+      // and tile two spots from player DOES NOT HAVE a box
+      twoLeftOfPlayer.box = oneLeftOfPlayer.box;
+      oneLeftOfPlayer.box = false;
+      this.boxPushes++;
     }
 
-    if (
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !twoLeftOfPlayer.box) ||
-      (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !twoLeftOfPlayer.box)
-    ) {
-        twoLeftOfPlayer.box = oneLeftOfPlayer.box;
-        oneLeftOfPlayer.box = false;
-        oneLeftOfPlayer.player = playerTile.player;
-        playerTile.player = false;
-        player.column -= 1;
-        this.boxPushes++;
-        this.stepCount++;
-        this.render();
-        return;
-    }
-
+    this.render();
   }
 
   handleRightMovement() {
@@ -265,31 +252,17 @@ class Board {
       return;
     }
 
-    if (
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !oneRightOfPlayer.box) ||
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !oneRightOfPlayer.box)
-    ) {
-      oneRightOfPlayer.player = playerTile.player;
-      playerTile.player = false;
-      player.column += 1;
-      this.stepCount++;
-      this.render();
-      return;
-    }
+    oneRightOfPlayer.player = playerTile.player;
+    playerTile.player = false;
+    player.column += 1;
+    this.stepCount++;
 
-    if (
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !twoRightOfPlayer.box) ||
-      (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !twoRightOfPlayer.box)
-    ) {
-        twoRightOfPlayer.box = oneRightOfPlayer.box;
-        oneRightOfPlayer.box = false;
-        oneRightOfPlayer.player = playerTile.player;
-        playerTile.player = false;
-        player.column += 1;
-        this.boxPushes++;
-        this.stepCount++;
-        this.render();
-        return;
+    if (oneRightOfPlayer.box) {
+      // If tile one spot from player DOES HAVE a box
+      // and tile two spots from player DOES NOT HAVE a box
+      twoRightOfPlayer.box = oneRightOfPlayer.box;
+      oneRightOfPlayer.box = false;
+      this.boxPushes++;
     }
 
   }
@@ -315,31 +288,17 @@ class Board {
       return;
     }
 
-    if (
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !oneNorthOfPlayer.box) ||
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !oneNorthOfPlayer.box)
-    ) {
-      oneNorthOfPlayer.player = playerTile.player;
-      playerTile.player = false;
-      player.row -= 1;
-      this.stepCount++;
-      this.render();
-      return;
-    }
+    oneNorthOfPlayer.player = playerTile.player;
+    playerTile.player = false;
+    player.row -= 1;
+    this.stepCount++;
 
-    if (
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !twoNorthOfPlayer.box) ||
-      (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !twoNorthOfPlayer.box)
-    ) {
-        twoNorthOfPlayer.box = oneNorthOfPlayer.box;
-        oneNorthOfPlayer.box = false;
-        oneNorthOfPlayer.player = playerTile.player;
-        playerTile.player = false;
-        player.row -= 1;
-        this.boxPushes++;
-        this.stepCount++;
-        this.render();
-        return;
+    if (oneNorthOfPlayer.box) {
+      // If tile one spot from player DOES HAVE a box
+      // and tile two spots from player DOES NOT HAVE a box
+      twoNorthOfPlayer.box = oneNorthOfPlayer.box;
+      oneNorthOfPlayer.box = false;
+      this.boxPushes++;
     }
 
   }
@@ -362,31 +321,17 @@ class Board {
       return;
     }
 
-    if (
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !oneSouthOfPlayer.box) ||
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !oneSouthOfPlayer.box)
-    ) {
-      oneSouthOfPlayer.player = playerTile.player;
-      playerTile.player = false;
-      player.row += 1;
-      this.stepCount++;
-      this.render();
-      return;
-    }
+    oneSouthOfPlayer.player = playerTile.player;
+    playerTile.player = false;
+    player.row += 1;
+    this.stepCount++;
 
-    if (
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_5__tiles_checkpoint_js__["a" /* default */] && !twoSouthOfPlayer.box) ||
-      (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_1__tiles_floor_js__["a" /* default */] && !twoSouthOfPlayer.box)
-    ) {
-        twoSouthOfPlayer.box = oneSouthOfPlayer.box;
-        oneSouthOfPlayer.box = false;
-        oneSouthOfPlayer.player = playerTile.player;
-        playerTile.player = false;
-        player.row += 1;
-        this.stepCount++;
-        this.boxPushes++;
-        this.render();
-        return;
+    if (oneSouthOfPlayer.box) {
+      // If tile one spot from player DOES HAVE a box
+      // and tile two spots from player DOES NOT HAVE a box
+      twoSouthOfPlayer.box = oneSouthOfPlayer.box;
+      oneSouthOfPlayer.box = false;
+      this.boxPushes++;
     }
   }
 
