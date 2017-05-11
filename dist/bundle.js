@@ -171,12 +171,9 @@ class Floor extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
 class Board {
 
   constructor(textGrid) {
-
     this.stage = new createjs.Stage("canvas");
-
     this.stepCount  = 0;
     this.boxPushes  = 0;
-
     this.objectGrid = this.compile(textGrid);
     this.render();
   }
@@ -238,8 +235,7 @@ class Board {
     const playerTile      = this.getGridObject(row, column);
     const oneLeftOfPlayer = this.getGridObject(row, column - 1);
     const twoLeftOfPlayer = this.getGridObject(row, column - 2);
-    const player           = playerTile.player;
-    let box;
+    const player          = this.playerObject;
 
     if (
       (oneLeftOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
@@ -274,7 +270,6 @@ class Board {
     const oneRightOfPlayer = this.getGridObject(row, column + 1);
     const twoRightOfPlayer = this.getGridObject(row, column + 2);
     const player           = playerTile.player;
-    let box;
 
     if (
       (oneRightOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
@@ -310,7 +305,6 @@ class Board {
     const oneNorthOfPlayer = this.getGridObject(row - 1, column);
     const twoNorthOfPlayer = this.getGridObject(row - 2, column);
     const player           = playerTile.player;
-    let box;
 
     if (
       (oneNorthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
@@ -343,7 +337,6 @@ class Board {
     const oneSouthOfPlayer = this.getGridObject(row + 1, column);
     const twoSouthOfPlayer = this.getGridObject(row + 2, column);
     const player           = playerTile.player;
-    let box;
 
     if (
       (oneSouthOfPlayer instanceof __WEBPACK_IMPORTED_MODULE_2__tiles_wall_js__["a" /* default */]) ||
