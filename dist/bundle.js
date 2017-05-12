@@ -373,7 +373,6 @@ class Board {
 // Floor              (Space)      0x20
 
 const LEVELS = [
-
   [
     ["#", "#", "#", "#", "#", "#", "#", "#"],
     ["#", "#", "#", ".", "#", "#", "#", "#"],
@@ -1275,14 +1274,16 @@ const LEVELS = [
     ["#", "#", "#", "#", "#", " ", ".", "#"],
     ["#", "#", "#", "#", "#", "#", "#", "#"]],
 
-    [["#", "#", "#", "#", "#", "#", "#", "#"],
-    ["#", "#", "#", " ", " ", "#", "#", "#"],
-    ["#", "#", "#", " ", ".", "$", " ", "#"],
-    ["#", " ", ".", "$", "$", "*", "@", "#"],
-    ["#", ".", " ", " ", ".", " ", "#", "#"],
-    ["#", " ", " ", "$", "*", "#", "#", "#"],
-    ["#", " ", " ", " ", " ", "#", "#", "#"],
-    ["#", "#", "#", "#", "#", "#", "#", "#"]]
+    [
+      ["#", "#", "#", "#", "#", "#", "#", "#"],
+      ["#", "#", "#", ".", "#", "#", "#", "#"],
+      ["#", "#", "#", " ", "#", "#", "#", "#"],
+      ["#", "#", "#", "$", " ", "$", ".", "#"],
+      ["#", ".", " ", "$", "@", "#", "#", "#"],
+      ["#", "#", "#", "#", "$", "#", "#", "#"],
+      ["#", "#", "#", "#", ".", "#", "#", "#"],
+      ["#", "#", "#", "#", "#", "#", "#", "#"],
+    ]
 ];
 
 /* harmony default export */ __webpack_exports__["a"] = LEVELS;
@@ -1435,38 +1436,31 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogClass: "no-close"
   });
 
-  $("#reset-level").click(event => {
-    sokoban = new Sokoban(sokoban.level);
-    board = sokoban.board;
-    $("#steps-taken").text(board.stepCount);
-    $("#box-pushes").text(board.boxPushes);
-  });
-
-  $("#skip-level").click(event => {
-    sokoban = new Sokoban(sokoban.level + 1);
-    board = sokoban.board;
-    $("#steps-taken").text(board.stepCount);
-    $("#box-pushes").text(board.boxPushes);
-    $("#level").text(sokoban.level + 1);
-  });
-
-  $("#reset-game").click(event => {
-    sokoban = new Sokoban();
-    board = sokoban.board;
+  function createNewGame(level) {
     $("#dialog").dialog("close");
     $("#canvas").show();
-    $("#steps-taken").text(board.stepCount);
-    $("#box-pushes").text(board.boxPushes);
-    $("#level").text(sokoban.level + 1);
-  });
-
-  $("#go-to-level-button").click(event => {
-    const level = $("#go-to-level-input").text;
-    sokoban = new Sokoban(parseInt(level));
+    sokoban = new Sokoban(level);
     board = sokoban.board;
     $("#steps-taken").text(board.stepCount);
     $("#box-pushes").text(board.boxPushes);
     $("#level").text(sokoban.level);
+  }
+
+  $("#reset-level").click(event => {
+    createNewGame(sokoban.level);
+  });
+
+  $("#skip-level").click(event => {
+    createNewGame(sokoban.level + 1);
+  });
+
+  $("#reset-game").click(event => {
+    createNewGame(0);
+  });
+
+  $("#select-level").change(event => {
+    const level = $("#select-level").val();
+    createNewGame(parseInt(level));
   });
 
   document.addEventListener("keydown", () => {
@@ -1494,18 +1488,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (sokoban.board.gameOver()) {
 
-        if(sokoban.level === 99) {
+        if(sokoban.level === 100) {
           $("#canvas").hide();
           $("#dialog").dialog("open");
           return;
         }
 
-        sokoban = new Sokoban(sokoban.level + 1);
-        board = sokoban.board;
-        window.board = board;
-        $("#steps-taken").text(board.stepCount);
-        $("#box-pushes").text(board.boxPushes);
-        $("#level").text(sokoban.level + 1);
+        createNewGame(0);
       }
   }
   );

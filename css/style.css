@@ -73,7 +73,7 @@ canvas {
   font-size: 30px;
 }
 
-#reset-level, #skip-level, #reset-game {
+#reset-level, #skip-level, .reset-game {
   box-sizing: border-box;
   margin: 20px 35px;
   width: 400px;
@@ -83,6 +83,10 @@ canvas {
   border-radius: 6px;
   font-size: 32px;
   font-weight: bold;
+}
+
+option {
+  margin-left: 20px;
 }
 
 #dialog {
