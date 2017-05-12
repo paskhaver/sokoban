@@ -73,11 +73,11 @@ canvas {
   font-size: 30px;
 }
 
-#reset-level, .reset-game {
+#reset-level, #skip-level, #reset-game {
   box-sizing: border-box;
   margin: 20px 35px;
   width: 400px;
-  height: 100px;
+  height: 70px;
   background-color: #FF8784;
   border: 2px dashed #ffffff;
   border-radius: 6px;
