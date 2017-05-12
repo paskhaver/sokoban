@@ -1,4 +1,4 @@
-body, header, h1, h4, canvas, footer, button, img, div {
+body, header, h1, h4, canvas, footer, button, img, div, select, option {
   margin: 0px;
   padding: 0px;
   border: 0px;
@@ -61,7 +61,6 @@ canvas {
 }
 
 .bonus {
-  /*box-sizing: border-box;*/
   margin-top: 20px;
   width: 480px;
   background-color: #DDFCAD;
@@ -69,7 +68,7 @@ canvas {
 }
 
 .bonus h2 {
-  padding: 20px 20px;
+  padding: 20px;
   font-size: 30px;
 }
 
@@ -85,8 +84,12 @@ canvas {
   font-weight: bold;
 }
 
-option {
-  margin-left: 20px;
+select {
+  height: 35px;
+  width: 100px;
+  font-size: 18px;
+  text-align-last:center;
+  border: 2px solid red;
 }
 
 #dialog {

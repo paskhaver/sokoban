@@ -1444,6 +1444,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("#steps-taken").text(board.stepCount);
     $("#box-pushes").text(board.boxPushes);
     $("#level").text(sokoban.level + 1);
+    $("#select-level").val(sokoban.level + 1);
   }
 
   $("#reset-level").click(event => {
