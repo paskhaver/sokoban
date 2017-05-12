@@ -28,3 +28,25 @@ the walls or in a corner.
 - Level select field to instantly switch to another game
 - Reset level, skip level, and reset game buttons
 - 100+ levels
+
+## Code Samples
+
+- Helper methods react to any of 4 directions (north, south, east, west) of player movement
+```javascript
+getAdjacentTiles(direction, row, column) {
+  const playerTile = this.getGridObject(row, column);
+  const player     = this.playerObject;
+  let oneTileFromPlayer, twoTilesFromPlayer;
+  switch(direction) {
+    case "right":
+      oneTileFromPlayer  = this.getGridObject(row, column + 1);
+      twoTilesFromPlayer = this.getGridObject(row, column + 2);
+      break;
+
+    case "up":
+      oneTileFromPlayer  = this.getGridObject(row - 1, column);
+      twoTilesFromPlayer = this.getGridObject(row - 2, column);
+      break;
+    //...
+  }
+```
