@@ -1443,7 +1443,7 @@ document.addEventListener("DOMContentLoaded", () => {
     board = sokoban.board;
     $("#steps-taken").text(board.stepCount);
     $("#box-pushes").text(board.boxPushes);
-    $("#level").text(sokoban.level);
+    $("#level").text(sokoban.level + 1);
   }
 
   $("#reset-level").click(event => {
@@ -1451,16 +1451,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#skip-level").click(event => {
-    createNewGame(sokoban.level + 1);
+    if (sokoban.level < 99) {
+      createNewGame(sokoban.level + 1);
+    }
   });
 
-  $("#reset-game").click(event => {
+  $(".reset-game").click(event => {
     createNewGame(0);
   });
 
   $("#select-level").change(event => {
     const level = $("#select-level").val();
-    createNewGame(parseInt(level));
+    createNewGame(parseInt(level - 1));
   });
 
   document.addEventListener("keydown", () => {
@@ -1488,13 +1490,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (sokoban.board.gameOver()) {
 
-        if(sokoban.level === 100) {
+        if(sokoban.level === 99) {
           $("#canvas").hide();
           $("#dialog").dialog("open");
           return;
         }
 
-        createNewGame(0);
+        createNewGame(sokoban.level + 1);
       }
   }
   );
