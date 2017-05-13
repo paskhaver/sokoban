@@ -31,7 +31,7 @@ the walls or in a corner.
 
 ## Code Samples
 
-- All 4 directions (left, right, up, down) of player movement are handled
+- 4 directions (left, right, up, down) of player movement are handled
 by single DRY function with helper methods
 ```javascript
 getAdjacentTiles(direction, row, column) {
@@ -51,8 +51,8 @@ getAdjacentTiles(direction, row, column) {
     //...
   }
 ```
-- jQuery helper methods update the steps taken and boxes pushed for
-every player action as well as upon level or game reset
+- jQuery helper methods update game statistics for
+every player action as well as upon level reset
 
 ```javascript
 function createNewGame(level) {
@@ -70,8 +70,8 @@ $("#reset-level").click(event => {
 });
 ```
 
-- Instantiation for a new level iterates over multi-dimensional array of 1-character
-strings to create game components (player, checkpoint, box, wall)
+- Instantiation of a new level iterates over multi-dimensional array of 1-character
+strings to create game objects (player, checkpoint, box, wall)
 ```javascript
 compile(textGrid) {
   return textGrid.map((array, rowIndex) => {
