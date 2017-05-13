@@ -1,5 +1,7 @@
 # Sokoban
 
+![Sokoban Gameplay](./screenshots/gameplay.gif)
+
 ## Live Link
 
 [Sokoban](https://paskhaver.github.io/sokoban/)
@@ -20,7 +22,6 @@ The goal is for the player to move all of the boxes to their
 designated checkpoints without trapping the boxes in between
 the walls or in a corner.
 
-![Sokoban Gameplay](./screenshots/gameplay.gif)
 
 ## Features
 - Dynamic movement of player across game grid
