@@ -24,15 +24,15 @@ the walls or in a corner.
 
 
 ## Features
-- Dynamic movement of player across game grid
-- Game logic to render next level upon victory
-- Level select field to instantly switch to another game
-- Reset level, skip level, and reset game buttons
-- 100+ levels
+- Dynamic movement of player across game grid created with Easel.js
+- ES6 game logic to render next level upon victory
+- Dropdown to instantly switch to another level
+- Reset level, skip level, and reset game buttons to improve user experience
+- 30 levels of varying difficulty
 
 ## Code Samples
 
-- Helper methods react to any of 4 directions (north, south, east, west) of player movement
+- Helper methods react to 4 directions (left, right, up, down) of player movement
 ```javascript
 getAdjacentTiles(direction, row, column) {
   const playerTile = this.getGridObject(row, column);
@@ -50,4 +50,24 @@ getAdjacentTiles(direction, row, column) {
       break;
     //...
   }
+```
+- jQuery methods update the steps taken and boxes pushed from internal game logic
+
+- Reset level, skip level, and reset game functionalities are captured in single helper method
+
+```javascript
+function createNewGame(level) {
+  $("#dialog").dialog("close");
+  $("#canvas").show();
+  sokoban = new Sokoban(level);
+  board = sokoban.board;
+  $("#steps-taken").text(board.stepCount);
+  $("#box-pushes").text(board.boxPushes);
+  $("#level").text(sokoban.level + 1);
+  $("#select-level").val(sokoban.level + 1);
+}
+
+$("#reset-level").click(event => {
+  createNewGame(sokoban.level);
+});
 ```

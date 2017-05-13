@@ -803,7 +803,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#skip-level").click(event => {
-    if (sokoban.level < 99) {
+    if (sokoban.level < 30) {
       createNewGame(sokoban.level + 1);
     }
   });
