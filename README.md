@@ -32,7 +32,8 @@ the walls or in a corner.
 
 ## Code Samples
 
-- Helper methods react to 4 directions (left, right, up, down) of player movement
+- All 4 directions (left, right, up, down) of player movement are handled
+by single DRY function with helper methods
 ```javascript
 getAdjacentTiles(direction, row, column) {
   const playerTile = this.getGridObject(row, column);
@@ -51,14 +52,12 @@ getAdjacentTiles(direction, row, column) {
     //...
   }
 ```
-- jQuery methods update the steps taken and boxes pushed from internal game logic
-
-- Reset level, skip level, and reset game functionalities are captured in single helper method
+- jQuery helper methods update the steps taken and boxes pushed for
+every player action as well as upon level or game reset
 
 ```javascript
 function createNewGame(level) {
-  $("#dialog").dialog("close");
-  $("#canvas").show();
+  //...
   sokoban = new Sokoban(level);
   board = sokoban.board;
   $("#steps-taken").text(board.stepCount);
@@ -70,4 +69,26 @@ function createNewGame(level) {
 $("#reset-level").click(event => {
   createNewGame(sokoban.level);
 });
+```
+
+- Instantiation for a new level iterates over multi-dimensional array of 1-character
+strings to create game components (player, checkpoint, box, wall)
+```javascript
+compile(textGrid) {
+  return textGrid.map((array, rowIndex) => {
+    return array.map((symbol, colIndex) => {
+      let floor, box, player, checkpoint;
+      switch(symbol) {
+        case "#":
+          return new Wall(rowIndex, colIndex);
+
+        case " ":
+          return new Floor(rowIndex, colIndex);
+
+        //...
+        case "@":
+          floor = new Floor(rowIndex, colIndex);
+          floor.player = new Player(rowIndex, colIndex);
+          this.playerObject = floor.player;
+          return floor;
 ```
