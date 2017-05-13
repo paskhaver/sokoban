@@ -25,9 +25,9 @@ the walls or in a corner.
 
 ## Features
 - Dynamic movement of player across game grid created with Easel.js
-- ES6 game logic to render next level upon victory
-- Dropdown to instantly switch to another level
-- Reset level, skip level, and reset game buttons to improve user experience
+- ES6 logic to render grid, move player, check for victory, and transition to next level
+- Menu dropdown offers player chance to instantly switch to another level
+- Custom actions (reset level, skip level, reset game) to improve user experience
 - 30 levels of varying difficulty
 
 ## Code Samples
