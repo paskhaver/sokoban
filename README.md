@@ -22,7 +22,6 @@ The goal is for the player to move all of the boxes to their
 designated checkpoints without trapping the boxes in between
 the walls or in a corner.
 
-
 ## Features
 - Dynamic movement of player across game grid created with Easel.js
 - ES6 logic to render grid, move player, check for victory, and transition to next level
